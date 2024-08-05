@@ -18,7 +18,7 @@ This is a scanner that scans new developer products for new universes. This can 
 
 7. Finally, choose the game you want to scan updates on developer products for. Get the place id which is in the link (https://roblox.com/games/PLACEID), and take that id and put it here: https://apis.roblox.com/universes/v1/places/PLACEIDHERE/universe. This will return your universe id, which goes into universeId=
 
-8. Run the bot using node index.
+8. Run the bot using node index in the terminal.
 
 ## Contributing
 Pull requests are welcomed. I would love to see all the changes anyone can make.
