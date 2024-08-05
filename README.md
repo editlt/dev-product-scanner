@@ -21,4 +21,7 @@ This is a scanner that scans new developer products for new universes. This can 
 8. Run the bot using node index.
 
 ## Contributing
-Pull requests are welcomed. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcomed. I would love to see all the changes anyone can make.
+
+## Goals
+- [ ] 5 ⭐ - Multiple Channel Support
