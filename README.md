@@ -28,4 +28,5 @@ Pull requests are welcomed. I would love to see all the changes anyone can make.
 
 ## Goals
 - [x] 5 ⭐ - Multiple Channel Support
-- [ ] 12 ⭐ - Multiple universe support along with channels.
+- [ ] 10 ⭐ - Place ID instead of universe ID in .env
+- [ ] 15 ⭐ - Multiple universe support along with channels.
