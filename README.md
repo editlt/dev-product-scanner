@@ -1,3 +1,5 @@
+⭐️5 - Multiple Channel Support
+
 star it and ill like add more to it yeah so like star it,
 
 if u need help setting up dm me: editlt___
