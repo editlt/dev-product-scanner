@@ -1,3 +1,5 @@
+// current version: v1.0.2
+
 const { connect } = require('mongoose');
 require("dotenv").config();
 const fetchProducts = require("./fetchProducts");
