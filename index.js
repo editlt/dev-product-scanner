@@ -17,63 +17,67 @@ client.login(process.env.bot_token);
     await connect(process.env.mongo_db_token);
 
     while (true) {
-        let oldData = await devproducts.find();
-        let newData = await fetchProducts();
-        for (const newProduct of newData) {
-            const oldProduct = oldData.find((data) => {
-                return data.DeveloperProductId == newProduct.DeveloperProductId;
-            });
+        try {
+            let oldData = await devproducts.find();
+            let newData = await fetchProducts();
+            for (const newProduct of newData) {
+                const oldProduct = oldData.find((data) => {
+                    return data.DeveloperProductId == newProduct.DeveloperProductId;
+                });
 
-            if (!oldProduct) {
-                sendEmbed(
-                    newProduct,
-                    oldProduct,
-                    Types.newItem,
-                    client
+                if (!oldProduct) {
+                    sendEmbed(
+                        newProduct,
+                        oldProduct,
+                        Types.newItem,
+                        client
+                    );
+                    new devproducts(newProduct).save();
+                    await wait(400);
+                    continue;
+                } else if (newProduct.PriceInRobux !== oldProduct.PriceInRobux) {
+                    sendEmbed(
+                        newProduct,
+                        oldProduct,
+                        Types.newPrice,
+                        client
+                    );
+                } else if (newProduct.IconImageAssetId !== oldProduct.IconImageAssetId) {
+                    sendEmbed(
+                        newProduct,
+                        oldProduct,
+                        Types.newImage,
+                        client
+                    );
+                } else if (newProduct.Name !== oldProduct.Name) {
+                    sendEmbed(
+                        newProduct,
+                        oldProduct,
+                        Types.newName,
+                        client
+                    );
+                } else if (newProduct.Description !== oldProduct.Description) {
+                    sendEmbed(
+                        newProduct,
+                        oldProduct,
+                        Types.newDescription,
+                        client
+                    );
+                } else {
+                    continue;
+                }
+
+                await devproducts.updateOne(
+                    {
+                        ProductId: newProduct.ProductId,
+                    },
+                    newProduct
                 );
-                new devproducts(newProduct).save();
                 await wait(400);
-                continue;
-            } else if (newProduct.PriceInRobux !== oldProduct.PriceInRobux) {
-                sendEmbed(
-                    newProduct,
-                    oldProduct,
-                    Types.newPrice,
-                    client
-                );
-            } else if (newProduct.IconImageAssetId !== oldProduct.IconImageAssetId) {
-                sendEmbed(
-                    newProduct,
-                    oldProduct,
-                    Types.newImage,
-                    client
-                );
-            } else if (newProduct.Name !== oldProduct.Name) {
-                sendEmbed(
-                    newProduct,
-                    oldProduct,
-                    Types.newName,
-                    client
-                );
-            } else if (newProduct.Description !== oldProduct.Description) {
-                sendEmbed(
-                    newProduct,
-                    oldProduct,
-                    Types.newDescription,
-                    client
-                );
-            } else {
-                continue;
             }
-
-            await devproducts.updateOne(
-                {
-                    ProductId: newProduct.ProductId,
-                },
-                newProduct
-            );
-            await wait(400);
+            await new Promise((e) => setTimeout(e, 6_000));
+        } catch (error) {
+            console.error(`error: ${error}`)
         }
-        await new Promise((e) => setTimeout(e, 6_000));
     }
 })();
