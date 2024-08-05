@@ -4,9 +4,7 @@ const { EmbedBuilder } = require("@discordjs/builders");
 require("dotenv").config();
 
 const sendEmbed = async (productData, oldProduct, type, client) => {
-    const channel =
-        client.channels.cache.get(process.env.channelId) ??
-        (await client.channels.fetch(process.env.channelId));
+    const channelIds = JSON.parse(process.env.channelIds)
 
     // Helper function to validate and convert field values to strings
     const validateField = (value) => {
@@ -14,9 +12,11 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
     };
 
     try {
+        let embed;
+
         switch (type) {
             case Types.newItem:
-                const embed = new EmbedBuilder()
+                embed = new EmbedBuilder()
                     .setTitle(validateField(productData.Name))
                     .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
                     .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
@@ -51,13 +51,9 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             inline: true,
                         }
                     );
-                await channel.send({
-                    embeds: [embed],
-                });
                 break;
-
             case Types.newPrice:
-                const embed2 = new EmbedBuilder()
+                embed = new EmbedBuilder()
                     .setTitle(validateField(productData.Name))
                     .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
                     .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
@@ -92,13 +88,9 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             inline: true,
                         },
                     );
-                await channel.send({
-                    embeds: [embed2]
-                });
                 break;
-
             case Types.newImage:
-                const embed3 = new EmbedBuilder()
+                embed = new EmbedBuilder()
                     .setTitle(validateField(productData.Name))
                     .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
                     .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
@@ -133,13 +125,9 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             inline: true,
                         },
                     );
-                await channel.send({
-                    embeds: [embed3]
-                });
                 break;
-
             case Types.newName:
-                const embed4 = new EmbedBuilder()
+                embed = new EmbedBuilder()
                     .setTitle(`${validateField(oldProduct.Name)} => ${validateField(productData.Name)}`)
                     .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
                     .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
@@ -174,13 +162,9 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             inline: true,
                         },
                     );
-                await channel.send({
-                    embeds: [embed4]
-                });
                 break;
-
             case Types.newDescription:
-                const embed5 = new EmbedBuilder()
+                embed = new EmbedBuilder()
                     .setTitle(validateField(productData.Name))
                     .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
                     .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
@@ -215,13 +199,18 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             inline: true,
                         },
                     );
-                await channel.send({
-                    embeds: [embed5]
-                });
                 break;
-
             default:
                 break;
+        }
+
+        for (const channelId of channelIds) {
+            const channel =
+                client.channels.cache.get(channelId) ??
+                (await client.channels.fetch(channelId))
+            await channel.send({
+                embeds: [embed]
+            });
         }
     } catch (error) {
         console.error("Error sending embed:", error);
