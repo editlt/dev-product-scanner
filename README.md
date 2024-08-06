@@ -4,7 +4,7 @@ This is a scanner that scans new developer products for new universes. This can 
 
 ## Setup
 
-1. Download source code from here: https://github.com/editlt/dev-product-scanner/releases/tag/v1.0.1
+1. Download source code from the most recent release here: https://github.com/editlt/dev-product-scanner/releases
 
 2. Extract folders, and rename .env.example to .env
 
