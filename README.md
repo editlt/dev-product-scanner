@@ -16,7 +16,7 @@ This is a scanner that scans new developer products for new universes. This can 
 
 6. For setting up mongodb, I recommend watching this tutorial: https://youtu.be/oVHQXwkdS6w. Once you get the connection string, put it under mongo_db_token=
 
-7. Finally, choose the game you want to scan updates on developer products for. Get the place id which is in the link (https://roblox.com/games/PLACEID), and take that id and put it here: https://apis.roblox.com/universes/v1/places/PLACEIDHERE/universe. This will return your universe id, which goes into universeId=
+7. Finally, choose the game you want to scan updates on developer products for. Get the place id which is in the link (https://roblox.com/games/PLACEID), and take that id and put it into .env under placeId=
 
 8. Run the bot using node index in the terminal.
 

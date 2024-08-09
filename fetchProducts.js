@@ -1,13 +1,17 @@
 require("dotenv").config()
+const convertToUniverse = require('./convertPlaceToUniverse');
 
 const fetchProducts = async () => {
     try {
+        const universeId = await convertToUniverse(process.env.placeId);
+
         let finalData = [];
         let doing = true;
         let page = 1;
+        
         while (doing) {
             const foundData = await fetch(
-                `https://apis.roblox.com/developer-products/v1/developer-products/list?universeId=${process.env.universeId}&page=${page}`, 
+                `https://apis.roblox.com/developer-products/v1/developer-products/list?universeId=${universeId}&page=${page}`, 
                 {
                     headers: { "Content-Type": "application/json" },
                 }

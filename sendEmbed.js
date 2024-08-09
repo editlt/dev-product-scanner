@@ -32,7 +32,7 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                         },
                         {
                             name: 'Price',
-                            value: validateField(productData.PriceInRobux),
+                            value: validateField(productData.PriceInRobux.toLocaleString()),
                             inline: true,
                         },
                         {
@@ -64,7 +64,7 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                     .addFields(
                         {
                             name: 'New Price',
-                            value: `${validateField(oldProduct.PriceInRobux)} => ${validateField(productData.PriceInRobux)}`,
+                            value: `${validateField(oldProduct.PriceInRobux.toLocaleString())} => ${validateField(productData.PriceInRobux.toLocaleString())}`,
                             inline: true,
                         },
                         {
@@ -111,7 +111,7 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                         },
                         {
                             name: 'Price',
-                            value: validateField(productData.PriceInRobux),
+                            value: validateField(productData.PriceInRobux.toLocaleString()),
                             inline: true,
                         },
                         {
@@ -143,7 +143,7 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                         },
                         {
                             name: 'Price',
-                            value: validateField(productData.PriceInRobux),
+                            value: validateField(productData.PriceInRobux.toLocaleString()),
                             inline: true,
                         },
                         {
@@ -180,7 +180,7 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                         },
                         {
                             name: 'Price',
-                            value: validateField(productData.PriceInRobux),
+                            value: validateField(productData.PriceInRobux.toLocaleString()),
                             inline: true,
                         },
                         {
