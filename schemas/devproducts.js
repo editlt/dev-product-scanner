@@ -9,7 +9,10 @@ const devProducts = new Schema({
     displayName: String,
     displayDescription: String,
     displayIcon: Number,
-    PriceInRobux: Number
+    PriceInRobux: Number,
+    placeId: Number
 });
+
+devProducts.index({ DeveloperProductId: 1, placeId: 1 }), { unique: true }
 
 module.exports = model("devProducts", devProducts, "devProducts")

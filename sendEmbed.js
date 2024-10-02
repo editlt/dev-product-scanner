@@ -1,5 +1,6 @@
 const Types = require("./types");
 const { EmbedBuilder } = require("@discordjs/builders");
+const getPlaceName = require('./getPlaceName')
 
 require("dotenv").config();
 
@@ -12,14 +13,28 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
     };
 
     try {
-        let embed;
+        const placeName = await getPlaceName(productData.placeId);
 
+        let embed;
+        const baseEmbed = new EmbedBuilder()
+            .setTitle(validateField(productData.Name))
+            .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
+            .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
+            .addFields(
+                {
+                    name: 'Place Name',
+                    value: placeName,
+                    inline: true,
+                },
+                {
+                    name: 'Developer Product ID',
+                    value: validateField(productData.DeveloperProductId),
+                    inline: true,
+                }
+            );
         switch (type) {
             case Types.newItem:
-                embed = new EmbedBuilder()
-                    .setTitle(validateField(productData.Name))
-                    .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
-                    .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
+                embed = baseEmbed
                     .setColor(0x00ffff)
                     .setAuthor({
                         name: 'New Developer Product',
@@ -44,19 +59,11 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             name: 'Image Asset Id',
                             value: validateField(productData.IconImageAssetId),
                             inline: true,
-                        },
-                        {
-                            name: 'Developer Product ID',
-                            value: validateField(productData.DeveloperProductId),
-                            inline: true,
                         }
                     );
                 break;
             case Types.newPrice:
-                embed = new EmbedBuilder()
-                    .setTitle(validateField(productData.Name))
-                    .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
-                    .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
+                embed = baseEmbed
                     .setAuthor({
                         name: 'Price Change',
                     })
@@ -82,18 +89,10 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             value: validateField(productData.Description),
                             inline: true,
                         },
-                        {
-                            name: 'Developer Product ID',
-                            value: validateField(productData.DeveloperProductId),
-                            inline: true,
-                        },
                     );
                 break;
             case Types.newImage:
-                embed = new EmbedBuilder()
-                    .setTitle(validateField(productData.Name))
-                    .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
-                    .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
+                embed = baseEmbed
                     .setAuthor({
                         name: 'Icon Change',
                     })
@@ -119,18 +118,10 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             value: `[Here](https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)})`,
                             inline: true,
                         },
-                        {
-                            name: 'Developer Product ID',
-                            value: validateField(productData.DeveloperProductId),
-                            inline: true,
-                        },
                     );
                 break;
             case Types.newName:
-                embed = new EmbedBuilder()
-                    .setTitle(`${validateField(oldProduct.Name)} => ${validateField(productData.Name)}`)
-                    .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
-                    .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
+                embed = baseEmbed
                     .setAuthor({
                         name: 'Name Change',
                     })
@@ -156,18 +147,10 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             value: validateField(productData.IconImageAssetId),
                             inline: true
                         },
-                        {
-                            name: 'Developer Product ID',
-                            value: validateField(productData.DeveloperProductId),
-                            inline: true,
-                        },
                     );
                 break;
             case Types.newDescription:
-                embed = new EmbedBuilder()
-                    .setTitle(validateField(productData.Name))
-                    .setURL(`https://roblox.com/developer-products/${validateField(productData.DeveloperProductId)}`)
-                    .setThumbnail(`https://rbxgleaks.pythonanywhere.com/asset/${validateField(productData.IconImageAssetId)}`)
+                embed = baseEmbed
                     .setAuthor({
                         name: 'Description Change',
                     })
@@ -192,11 +175,6 @@ const sendEmbed = async (productData, oldProduct, type, client) => {
                             name: "Image Asset Id",
                             value: validateField(productData.IconImageAssetId),
                             inline: true
-                        },
-                        {
-                            name: 'Developer Product ID',
-                            value: validateField(productData.DeveloperProductId),
-                            inline: true,
                         },
                     );
                 break;

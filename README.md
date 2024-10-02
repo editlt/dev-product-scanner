@@ -18,7 +18,7 @@ Download source code from the most recent release here: https://github.com/editl
 
 5. For setting up mongodb, I recommend watching this tutorial: https://youtu.be/oVHQXwkdS6w. Once you get the connection string, put it under mongo_db_token=
 
-6. Finally, choose the game you want to scan updates on developer products for. Get the place id which is in the link (https://roblox.com/games/PLACEID), and take that id and put it into .env under placeId=
+6. Finally, choose the game you want to scan updates on developer products for. Get the place id which is in the link (https://roblox.com/games/PLACEID), and take that id and put it into .env under placeIds=["placeId"], if you'd like multiple fill it in.
 
 7. Run the bot using node index in the terminal.
 
@@ -31,4 +31,4 @@ Pull requests are welcomed. I would love to see all the changes anyone can make.
 ## Goals
 - [x] 5 ⭐ - Multiple Channel Support
 - [x] 8 ⭐ - Place ID instead of universe ID in .env
-- [ ] 15 ⭐ - Multiple universe support along with channels.
+- [x] 10 ⭐ - Multiple Place IDs

@@ -1,7 +1,7 @@
 require("dotenv").config()
 const convertToUniverse = require('./convertPlaceToUniverse');
 
-const fetchProducts = async () => {
+const fetchProducts = async (placeId) => {
     try {
         const universeId = await convertToUniverse(process.env.placeId);
 
@@ -36,7 +36,7 @@ const fetchProducts = async () => {
             page++;
         }
 
-        return finalData;
+        return finalData.map(product => ({...product, placeId}));
     } catch (error) {
         console.log(`error: ${error}`)
     }
