@@ -3,7 +3,7 @@ const convertToUniverse = require('./convertPlaceToUniverse');
 
 const fetchProducts = async (placeId) => {
     try {
-        const universeId = await convertToUniverse(process.env.placeId);
+        const universeId = await convertToUniverse(placeId);
 
         let finalData = [];
         let doing = true;
