@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const sendEmbed = async (productData, oldProduct, type, client) => {
     const validateField = (value) => {
-        return value !== null && value !== undefined ? value.toString() : "N/A";
+        return value
     };
 
     try {
