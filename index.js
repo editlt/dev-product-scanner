@@ -1,4 +1,4 @@
-// current version: v1.1.5
+// current version: v1.1.8
 
 const { connect } = require('mongoose');
 require("dotenv").config();
@@ -50,7 +50,11 @@ client.login(process.env.bot_token);
                     } else if (newProduct.Name !== oldProduct.Name) {
                         await sendEmbed(newProduct, oldProduct, Types.newName, client);
                     } else if (newProduct.Description !== oldProduct.Description) {
-                        await sendEmbed(newProduct, oldProduct, Types.newDescription, client);
+                        if (newProduct.Description == "") {
+                            continue;
+                        } else {
+                            await sendEmbed(newProduct, oldProduct, Types.newDescription, client);
+                        }
                     } else {
                         continue;
                     }
