@@ -31,7 +31,7 @@ const getAllPlaceIds = () => Array.from(placeChannelMapping.keys());
 async function fetchWithRetry(url, options, retries = 3) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
-            if(attempt > 0)console.log(`retrying: ${url} [${attempt}]`)
+            if(attempt > 0) console.log(`retrying: ${url} [${attempt}]`)
             const response = await axios.get(url, options);
             return response.data;
         } catch (error) {
@@ -45,16 +45,13 @@ const convertToUniverse = (placeId) => fetchWithRetry(`https://apis.roblox.com/u
 
 async function fetchProducts(placeId) {
     console.log(placeId)
-    const universeId = await convertToUniverse(placeId);
-    console.log(universeId)
+    let universeId = await convertToUniverse(placeId);
+    universeId = universeId.universeId
     const finalData = [];
     let page = 1;
 
     while (true) {
-        const { DeveloperProducts = [] } = await fetchWithRetry(
-            `https://apis.roblox.com/developer-products/v1/developer-products/list`,
-            { params: { universeId, page } }
-        );
+        const { DeveloperProducts = [] } = await fetchWithRetry(`https://apis.roblox.com/developer-products/v1/developer-products/list?universeId=${universeId}&page=${page}`);
 
         if (DeveloperProducts.length === 0) break;
 
@@ -77,28 +74,31 @@ async function monitorProducts () {
     while (true) {
         for (const placeId of placeIds) {
             try {
-                console.log(placeId)
                 const oldData = await devproducts.find({ placeId })
                 const newData = await fetchProducts(placeId)
-
-                console.log(newData)
         
-                const updates = newData.map(async (newProduct) => {
+                let updates = newData.map((newProduct) => {
                     const oldProduct = oldData.find((data) => data.DeveloperProductId === newProduct.DeveloperProductId);
 
                     if (!oldProduct) {
-                        await sendEmbed(newProduct, null, Types.NEW_ITEM);
-                        await devproducts.create(newProduct);
-                    };
+                        return async () => {
+                            await sendEmbed(newProduct, null, Types.NEW_ITEM);
+                            await devproducts.create(newProduct);
+                        };
+                    }
                     
                     return handleUpdates(newProduct, oldProduct);
                 });
+
+                updates = updates.filter(upd => upd !== undefined)
+
+                console.log(updates)
 
                 for (const update of updates) await update?.();
            
 
             } catch (error) {
-                console.error("Error in main loop:", error.message);
+                console.log(error)
             }
         }
 
