@@ -13,7 +13,10 @@ const fetchProducts = async (placeId) => {
             const foundData = await fetch(
                 `https://apis.roblox.com/developer-products/v1/developer-products/list?universeId=${universeId}&page=${page}`, 
                 {
-                    headers: { "Content-Type": "application/json" },
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Cookie": `${process.env.roblox_cookie}`
+                     },
                 }
             );
 
