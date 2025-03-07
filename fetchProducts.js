@@ -11,7 +11,7 @@ const fetchProducts = async (placeId) => {
         
         while (doing) {
             const foundData = await fetch(
-                `https://apis.roblox.com/developer-products/v1/developer-products/list?universeId=${universeId}&page=${page}`, 
+                `https://apis.roblox.com/developer-products/v1/universes/${universeId}/developerproducts?pageNumber=${page}&pageSize=50`, 
                 {
                     headers: { 
                         "Content-Type": "application/json",
